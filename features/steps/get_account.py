@@ -35,7 +35,8 @@ def assert_account_details(context, status, customer_id):
     assert context.response.status_code == 200
     account = context.response.get_json()
 
-    assert account['accountStatus'] == status
+    assert account['accountStatus'] == status,\
+        f'expected: {status}, found: {account["accountStatus"]}'
     assert account['customerId'] == customer_id
 
 

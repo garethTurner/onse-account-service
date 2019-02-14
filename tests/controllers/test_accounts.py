@@ -96,3 +96,13 @@ def test_post_accounts_with_bad_context_type(web_client):
     response = web_client.post('/accounts/', data='not json')
     assert response.status_code == 415
     assert response.get_json()['message'] == 'Request must be application/json'
+
+
+@patch('account_service.domain.commands.delete_account')
+def test_delete_account(delete_account, web_client, account_repository):
+    response = web_client.delete('/accounts/12345')
+
+    delete_account.assert_called_with(account_number=12345,
+                                      account_repository=account_repository)
+
+    assert response.status_code == 200

@@ -49,6 +49,15 @@ def post_account():
     }), HTTPStatus.CREATED
 
 
+@accounts.route('/<string:account_number>', methods=['DELETE'])
+def delete_account(account_number):
+
+    commands.delete_account(account_number=int(account_number),
+                            account_repository=current_app.account_repository)
+
+    return jsonify(HTTPStatus.OK)
+
+
 @accounts.errorhandler(AccountNotFound)
 def account_not_found(e):
     return jsonify(message='Not found'), HTTPStatus.NOT_FOUND
